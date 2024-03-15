@@ -1,8 +1,8 @@
-# Netrust
+# netrust
 
 [![Rust](https://github.com/mateoneira/netrust/actions/workflows/rust.yml/badge.svg)](https://github.com/mateoneira/netrust/actions/workflows/rust.yml)
 
-Netrust is a Rust crate for working with graphs. It provides a basic graph structure and a set of graph algorithms that operate on this structure.
+netrust is a Rust Library crate for working with graphs. It provides a basic graph structure and a set of graph algorithms that operate on this structure.
 
 ## Features
 
