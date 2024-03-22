@@ -4,10 +4,12 @@
 
 netrust is a Rust Library crate for working with graphs. It provides a basic graph structure and a set of graph algorithms that operate on this structure.
 
-## Features
+## Graph representation
+* adjacency list representation
 
-- Basic graph structure: Netrust provides a simple and efficient graph data structure that allows you to represent and manipulate graphs.
-- Graph algorithms: Netrust includes a collection of common graph algorithms, such as breadth-first search, depth-first search, and shortest path algorithms.
+## Elementary graph algorithms
+* Kruskal minimum spanning tree
+* Dijkstra's single-source shortest path
 
 ## Getting Started
 
