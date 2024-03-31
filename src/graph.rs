@@ -7,7 +7,7 @@
 use std::collections::{HashMap, HashSet};
 ///A compact graph representation using adjacency list
 pub struct Graph {
-    adj_list: HashMap<usize, Vec<usize>>,
+    pub adj_list: HashMap<usize, Vec<usize>>,
 }
 
 impl Graph {
@@ -24,6 +24,18 @@ impl Graph {
         //! Adds an undirected edge to the graph
         self.adj_list.get_mut(&src).unwrap().push(dest);
         self.adj_list.get_mut(&dest).unwrap().push(src)
+    }
+
+    pub fn num_v(&self) -> usize {
+        self.adj_list.len()
+    }
+
+    pub fn num_e(&self) -> usize {
+        self.adj_list
+            .values()
+            .map(|neighbours| neighbours.len())
+            .sum::<usize>()
+            / 2
     }
 
     pub fn from_adj_list(adj_list: Vec<(usize, usize)>) -> Self {
