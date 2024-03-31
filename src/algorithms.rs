@@ -1,12 +1,14 @@
 use crate::graph::Graph;
 use std::collections::{HashMap, HashSet, VecDeque};
 
-pub fn bfs(graph: Graph, source: usize) -> HashMap<usize, (Option<usize>, usize)> {
+type BfsTree = HashMap<usize, (Option<usize>, usize)>;
+
+pub fn bfs(graph: &Graph, source: usize) -> BfsTree {
     let mut visited: HashSet<usize> = HashSet::new();
     let mut queue: VecDeque<usize> = VecDeque::new();
-    let mut parent: HashMap<usize, (Option<usize>, usize)> = HashMap::new();
+    let mut bfs_tree: BfsTree = HashMap::new();
 
-    parent.insert(source, (None, 0));
+    bfs_tree.insert(source, (None, 0));
     queue.push_back(source);
     visited.insert(source);
 
@@ -14,9 +16,9 @@ pub fn bfs(graph: Graph, source: usize) -> HashMap<usize, (Option<usize>, usize)
         if let Some(neighbours) = graph.adj_list.get(&current) {
             for &neighbour in neighbours {
                 if !visited.contains(&neighbour) {
-                    parent.insert(
+                    bfs_tree.insert(
                         neighbour,
-                        (Some(current), parent.get(&current).unwrap().1 + 1),
+                        (Some(current), bfs_tree.get(&current).unwrap().1 + 1),
                     );
                     visited.insert(neighbour);
                     queue.push_back(neighbour)
@@ -25,5 +27,18 @@ pub fn bfs(graph: Graph, source: usize) -> HashMap<usize, (Option<usize>, usize)
         }
     }
 
-    parent
+    bfs_tree
+}
+
+pub fn find_path_in_bfs_tree(bfs_tree: &BfsTree, target: usize) -> Vec<usize> {
+    let mut path: Vec<usize> = Vec::new();
+    path.push(target);
+
+    let mut current = bfs_tree.get(&target).unwrap();
+    while let Some(node) = current.0 {
+        path.push(node);
+        current = bfs_tree.get(&node).unwrap();
+    }
+    path.reverse();
+    path
 }
