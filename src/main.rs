@@ -19,7 +19,7 @@ fn main() {
         })
         .collect();
     //create graph
-    let graph = Graph::from_adj_list(adj_list);
+    let graph = Graph::from_edge_list(adj_list);
     //output basic properties
     let num_nodes = graph.num_v();
     let num_edges = graph.num_e();

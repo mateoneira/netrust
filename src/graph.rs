@@ -38,7 +38,7 @@ impl Graph {
             / 2
     }
 
-    pub fn from_adj_list(adj_list: Vec<(usize, usize)>) -> Self {
+    pub fn from_edge_list(adj_list: Vec<(usize, usize)>) -> Self {
         //! Creates a graph from an adjacency list
         let mut nodes = HashSet::new();
         for &(src, dest) in &adj_list {
