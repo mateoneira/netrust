@@ -1,4 +1,2 @@
-mod graph;
-mod algorithms;
-
-
+pub mod algorithms;
+pub mod graph;
