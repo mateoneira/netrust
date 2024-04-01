@@ -1,5 +1,5 @@
+use netrust::algorithms;
 use netrust::graph::Graph;
-use netrust::*;
 use std::env;
 use std::fs;
 
@@ -32,4 +32,8 @@ fn main() {
     let path = bfs_tree.get_path(3);
     println!("distances from 1-3 = {}", bfs_tree.get_distance(3));
     println!("path from 1-3: {:?}", path);
+
+    let dfs_tree = algorithms::dfs(&graph, 1);
+
+    println!("done.")
 }
