@@ -33,7 +33,15 @@ fn main() {
     println!("distances from 1-3 = {}", bfs_tree.get_distance(3));
     println!("path from 1-3: {:?}", path);
 
-    let dfs_tree = algorithms::dfs(&graph, 1);
+    let dfs_tree = algorithms::dfs(&graph, Some(1));
+    let dfs_forest = algorithms::dfs(&graph, None);
+    println!(
+        "finish time of dfs_tree with node 5: {}",
+        dfs_tree.nodes.get(&5).unwrap().finished
+    );
 
-    println!("done.")
+    println!(
+        "finish time of dfs_forest with node 5: {}",
+        dfs_tree.nodes.get(&5).unwrap().finished
+    );
 }

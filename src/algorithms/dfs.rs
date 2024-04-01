@@ -58,7 +58,7 @@ fn _dfs(
     dfs_forest.insert(current, (parent, discovered, finish))
 }
 
-pub fn dfs(graph: &Graph, source: usize) -> DfsForest {
+pub fn dfs(graph: &Graph, source: Option<usize>) -> DfsForest {
     //! Depth-first search
     //! Returns a DfsForest
     //! DfsForest containes predecessor subgraph of the depth-first searc
@@ -69,14 +69,33 @@ pub fn dfs(graph: &Graph, source: usize) -> DfsForest {
     let mut dfs_forest: DfsForest = DfsForest::new();
     let mut time: usize = 0;
 
-    _dfs(
-        graph,
-        source,
-        None,
-        &mut visited,
-        &mut dfs_forest,
-        &mut time,
-    );
+    match source {
+        Some(current) => {
+            _dfs(
+                &graph,
+                current,
+                None,
+                &mut visited,
+                &mut dfs_forest,
+                &mut time,
+            );
+        }
+        None => {
+            let nodes = graph.get_nodes();
+            for &current in &nodes {
+                if !visited.contains(&current) {
+                    _dfs(
+                        &graph,
+                        current,
+                        None,
+                        &mut visited,
+                        &mut dfs_forest,
+                        &mut time,
+                    );
+                }
+            }
+        }
+    }
 
     dfs_forest
 }

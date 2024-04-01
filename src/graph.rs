@@ -26,6 +26,11 @@ impl Graph {
         self.adj_list.get_mut(&dest).unwrap().push(src)
     }
 
+    pub fn get_nodes(&self) -> Vec<usize> {
+        //! Returns a vector of all nodes in the graph
+        self.adj_list.keys().cloned().collect()
+    }
+
     pub fn num_v(&self) -> usize {
         self.adj_list.len()
     }
