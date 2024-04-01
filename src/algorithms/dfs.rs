@@ -1,5 +1,5 @@
 use crate::graph::Graph;
-use std::collections::{HashMap, HashSet, VecDeque};
+use std::collections::{HashMap, HashSet};
 
 pub struct DfsNode {
     pub parent: Option<usize>,

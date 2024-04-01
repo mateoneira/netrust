@@ -42,6 +42,6 @@ fn main() {
 
     println!(
         "finish time of dfs_forest with node 5: {}",
-        dfs_tree.nodes.get(&5).unwrap().finished
+        dfs_forest.nodes.get(&5).unwrap().finished
     );
 }
