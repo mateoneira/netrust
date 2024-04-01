@@ -59,3 +59,35 @@ impl Graph {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_graph() {
+        let mut graph = Graph::new((1..6).collect());
+        graph.add_edge(1, 2);
+        graph.add_edge(1, 5);
+        graph.add_edge(2, 5);
+        graph.add_edge(2, 3);
+        graph.add_edge(2, 4);
+        graph.add_edge(3, 4);
+        graph.add_edge(4, 5);
+
+        assert_eq!(graph.num_v(), 5);
+        assert_eq!(graph.num_e(), 7);
+
+        let expected = vec![
+            (1, vec![2, 5]),
+            (2, vec![1, 5, 3, 4]),
+            (3, vec![2, 4]),
+            (4, vec![2, 3, 5]),
+            (5, vec![1, 2, 4]),
+        ]
+        .into_iter()
+        .collect::<HashMap<usize, Vec<usize>>>();
+
+        assert_eq!(graph.adj_list, expected);
+    }
+}

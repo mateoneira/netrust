@@ -29,7 +29,7 @@ fn main() {
 
     //bfs f graph with source 2
     let bfs_tree = algorithms::bfs(&graph, 1);
-    let path = algorithms::find_path_in_bfs_tree(&bfs_tree, 3);
-    println!("distances from 1-3 = {}", bfs_tree.get(&3).unwrap().1);
+    let path = bfs_tree.get_path(3);
+    println!("distances from 1-3 = {}", bfs_tree.get_distance(3));
     println!("path from 1-3: {:?}", path);
 }
