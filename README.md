@@ -13,6 +13,8 @@ The library implements the basic algorithms introduced in:
 * adjacency list representation: memory requirement $O(V+E)$
 
 ## Elementary graph algorithms
+* **BFS**: creates a bfs tree where nodes contain the parent of every node and the distance to the source 
+* **DFS**: creates a dfs forest formed of predecesor subgraphs where nodes contain a discovered and finished time.
 * Kruskal minimum spanning tree
 * Dijkstra's single-source shortest path
 
