@@ -1,29 +1,36 @@
 use crate::graph::Graph;
 use std::collections::{HashMap, HashSet, VecDeque};
 
-// type BfsTree = HashMap<usize, (Option<usize>, usize)>;
+pub struct BfsNode {
+    pub parent: Option<usize>,
+    pub distance: usize,
+}
 
 pub struct BfsTree {
-    pub tree: HashMap<usize, (Option<usize>, usize)>,
+    pub nodes: HashMap<usize, BfsNode>,
 }
 
 impl BfsTree {
     pub fn new() -> Self {
         BfsTree {
-            tree: HashMap::new(),
+            nodes: HashMap::new(),
         }
     }
 
     pub fn insert(&mut self, key: usize, value: (Option<usize>, usize)) {
-        self.tree.insert(key, value);
+        let node = BfsNode {
+            parent: value.0,
+            distance: value.1,
+        };
+        self.nodes.insert(key, node);
     }
 
-    pub fn get(&self, key: &usize) -> Option<&(Option<usize>, usize)> {
-        self.tree.get(key)
+    pub fn get(&self, key: &usize) -> Option<&BfsNode> {
+        self.nodes.get(key)
     }
 
     pub fn get_distance(&self, target: usize) -> usize {
-        self.get(&target).unwrap().1
+        self.get(&target).unwrap().distance
     }
 
     pub fn get_path(&self, target: usize) -> Vec<usize> {
@@ -31,7 +38,7 @@ impl BfsTree {
         path.push(target);
 
         let mut current = self.get(&target).unwrap();
-        while let Some(node) = current.0 {
+        while let Some(node) = current.parent {
             path.push(node);
             current = self.get(&node).unwrap();
         }
@@ -41,6 +48,13 @@ impl BfsTree {
 }
 
 pub fn bfs(graph: &Graph, source: usize) -> BfsTree {
+    //! Breadth-first search algorithm
+    //! Returns a BfsTree containing the parent-child relationships
+    //! and distances from the source node
+    //! # Arguments
+    //! * `graph` - A graph object
+    //! * `source` - The source node
+
     let mut visited: HashSet<usize> = HashSet::new();
     let mut queue: VecDeque<usize> = VecDeque::new();
     let mut bfs_tree: BfsTree = BfsTree::new();
@@ -55,7 +69,7 @@ pub fn bfs(graph: &Graph, source: usize) -> BfsTree {
                 if !visited.contains(&neighbour) {
                     bfs_tree.insert(
                         neighbour,
-                        (Some(current), bfs_tree.get(&current).unwrap().1 + 1),
+                        (Some(current), bfs_tree.get(&current).unwrap().distance + 1),
                     );
                     visited.insert(neighbour);
                     queue.push_back(neighbour)
@@ -70,7 +84,6 @@ pub fn bfs(graph: &Graph, source: usize) -> BfsTree {
 #[cfg(test)]
 mod tests {
     use super::*;
-
     #[test]
     fn test_bfs() {
         let mut graph = Graph::new((1..6).collect());

@@ -1,5 +1,5 @@
-use netrust::algorithms;
 use netrust::graph::Graph;
+use netrust::*;
 use std::env;
 use std::fs;
 

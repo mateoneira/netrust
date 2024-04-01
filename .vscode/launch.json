@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/target/debug/netrust.exe",
             "args": [
-                "data/adj_list.txt"
+                "data/edge_list.txt"
             ],
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "rust: cargo build"
