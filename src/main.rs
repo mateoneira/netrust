@@ -27,6 +27,9 @@ fn main() {
     println!("number of links: {num_edges}");
     graph.print_adj_list();
 
+    let components = graph.connected_components();
+    println!("number of connected components: {}", components.len());
+
     //bfs f graph with source 2
     let bfs_tree = algorithms::bfs(&graph, 1);
     let path = bfs_tree.get_path(3);
@@ -36,12 +39,12 @@ fn main() {
     let dfs_tree = algorithms::dfs(&graph, Some(1));
     let dfs_forest = algorithms::dfs(&graph, None);
     println!(
-        "finish time of dfs_tree with node 5: {}",
-        dfs_tree.nodes.get(&5).unwrap().finished
+        "finish time of dfs_tree with node 4: {}",
+        dfs_tree.nodes.get(&4).unwrap().finished
     );
 
     println!(
-        "finish time of dfs_forest with node 5: {}",
-        dfs_forest.nodes.get(&5).unwrap().finished
+        "finish time of dfs_forest with node 4: {}",
+        dfs_forest.nodes.get(&4).unwrap().finished
     );
 }
