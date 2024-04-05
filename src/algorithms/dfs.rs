@@ -45,9 +45,9 @@ fn _dfs(
     visited.insert(current);
 
     if let Some(neighbours) = graph.adj_list.get(&current) {
-        for &neighbour in neighbours {
+        for (neighbour, _) in neighbours {
             if !visited.contains(&neighbour) {
-                _dfs(graph, neighbour, Some(current), visited, dfs_forest, time);
+                _dfs(graph, *neighbour, Some(current), visited, dfs_forest, time);
             }
         }
     }

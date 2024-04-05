@@ -7,7 +7,7 @@
 use std::collections::{HashMap, HashSet};
 ///A compact graph representation using adjacency list
 pub struct Graph {
-    pub adj_list: HashMap<usize, Vec<usize>>,
+    pub adj_list: HashMap<usize, Vec<(usize, Option<f32>)>>,
 }
 
 /// Disjoint-set forest
@@ -66,10 +66,10 @@ impl Graph {
         Graph { adj_list }
     }
 
-    pub fn add_edge(&mut self, src: usize, dest: usize) {
+    pub fn add_edge(&mut self, src: usize, dest: usize, weight: Option<f32>) {
         //! Adds an undirected edge to the graph
-        self.adj_list.get_mut(&src).unwrap().push(dest);
-        self.adj_list.get_mut(&dest).unwrap().push(src)
+        self.adj_list.get_mut(&src).unwrap().push((dest, weight));
+        self.adj_list.get_mut(&dest).unwrap().push((src, weight))
     }
 
     pub fn get_nodes(&self) -> Vec<usize> {
@@ -99,7 +99,7 @@ impl Graph {
 
         let mut graph = Graph::new(nodes);
         for &(src, dest) in &adj_list {
-            graph.add_edge(src, dest);
+            graph.add_edge(src, dest, None);
         }
         graph
     }
@@ -107,8 +107,8 @@ impl Graph {
     pub fn connected_components(&self) -> Vec<Vec<usize>> {
         let mut disjoint_set = DisjointSet::new(self.num_v());
         for (&node, neighbours) in &self.adj_list {
-            for &neighbour in neighbours {
-                disjoint_set.union(node, neighbour);
+            for (neighbour, _) in neighbours {
+                disjoint_set.union(node, *neighbour);
             }
         }
         //creates a vector of vectors
@@ -135,9 +135,9 @@ mod tests {
     fn test_connected_components() {
         let nodes: HashSet<usize> = [0, 1, 2, 3, 4].iter().cloned().collect();
         let mut graph = Graph::new(nodes);
-        graph.add_edge(0, 1);
-        graph.add_edge(1, 2);
-        graph.add_edge(3, 4);
+        graph.add_edge(0, 1, None);
+        graph.add_edge(1, 2, None);
+        graph.add_edge(3, 4, None);
         let components = graph.connected_components();
         assert_eq!(components.len(), 2);
         let c_1 = components[0].clone();
@@ -177,26 +177,26 @@ mod tests {
     #[test]
     fn test_graph() {
         let mut graph = Graph::new((1..6).collect());
-        graph.add_edge(1, 2);
-        graph.add_edge(1, 5);
-        graph.add_edge(2, 5);
-        graph.add_edge(2, 3);
-        graph.add_edge(2, 4);
-        graph.add_edge(3, 4);
-        graph.add_edge(4, 5);
+        graph.add_edge(1, 2, None);
+        graph.add_edge(1, 5, None);
+        graph.add_edge(2, 5, None);
+        graph.add_edge(2, 3, None);
+        graph.add_edge(2, 4, None);
+        graph.add_edge(3, 4, None);
+        graph.add_edge(4, 5, None);
 
         assert_eq!(graph.num_v(), 5);
         assert_eq!(graph.num_e(), 7);
 
         let expected = vec![
-            (1, vec![2, 5]),
-            (2, vec![1, 5, 3, 4]),
-            (3, vec![2, 4]),
-            (4, vec![2, 3, 5]),
-            (5, vec![1, 2, 4]),
+            (1, vec![(2, None), (5, None)]),
+            (2, vec![(1, None), (5, None), (3, None), (4, None)]),
+            (3, vec![(2, None), (4, None)]),
+            (4, vec![(2, None), (3, None), (5, None)]),
+            (5, vec![(1, None), (2, None), (4, None)]),
         ]
         .into_iter()
-        .collect::<HashMap<usize, Vec<usize>>>();
+        .collect::<HashMap<usize, Vec<(usize, Option<f32>)>>>();
 
         assert_eq!(graph.adj_list, expected);
     }

@@ -65,14 +65,14 @@ pub fn bfs(graph: &Graph, source: usize) -> BfsTree {
 
     while let Some(current) = queue.pop_front() {
         if let Some(neighbours) = graph.adj_list.get(&current) {
-            for &neighbour in neighbours {
+            for (neighbour, _) in neighbours {
                 if !visited.contains(&neighbour) {
                     bfs_tree.insert(
-                        neighbour,
+                        *neighbour,
                         (Some(current), bfs_tree.get(&current).unwrap().distance + 1),
                     );
-                    visited.insert(neighbour);
-                    queue.push_back(neighbour)
+                    visited.insert(*neighbour);
+                    queue.push_back(*neighbour)
                 }
             }
         }
@@ -87,13 +87,13 @@ mod tests {
     #[test]
     fn test_bfs() {
         let mut graph = Graph::new((1..6).collect());
-        graph.add_edge(1, 2);
-        graph.add_edge(1, 5);
-        graph.add_edge(2, 5);
-        graph.add_edge(2, 3);
-        graph.add_edge(2, 4);
-        graph.add_edge(3, 4);
-        graph.add_edge(4, 5);
+        graph.add_edge(1, 2, None);
+        graph.add_edge(1, 5, None);
+        graph.add_edge(2, 5, None);
+        graph.add_edge(2, 3, None);
+        graph.add_edge(2, 4, None);
+        graph.add_edge(3, 4, None);
+        graph.add_edge(4, 5, None);
 
         let bfs_tree: BfsTree = bfs(&graph, 1);
         let path: Vec<usize> = bfs_tree.get_path(3);
