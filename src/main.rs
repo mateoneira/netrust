@@ -15,11 +15,12 @@ fn main() {
             let parts = line.split(",").collect::<Vec<&str>>();
             let src: usize = parts[0].parse().unwrap();
             let dest: usize = parts[1].parse().unwrap();
-            (src, dest)
+            let weight: f32 = parts[2].parse().unwrap();
+            (src, dest, weight)
         })
-        .collect();
+        .collect::<Vec<(usize, usize, f32)>>();
     //create graph
-    let graph = Graph::from_edge_list(adj_list);
+    let graph = Graph::from_weighted_edge_list(adj_list);
     //output basic properties
     let num_nodes = graph.num_v();
     let num_edges = graph.num_e();

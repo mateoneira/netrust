@@ -7,7 +7,7 @@
 use std::collections::{HashMap, HashSet};
 ///A compact graph representation using adjacency list
 pub struct Graph {
-    pub adj_list: HashMap<usize, Vec<(usize, Option<f32>)>>,
+    pub adj_list: HashMap<usize, Vec<(usize, f32)>>,
 }
 
 /// Disjoint-set forest
@@ -68,6 +68,7 @@ impl Graph {
 
     pub fn add_edge(&mut self, src: usize, dest: usize, weight: Option<f32>) {
         //! Adds an undirected edge to the graph
+        let weight = weight.unwrap_or(1.0);
         self.adj_list.get_mut(&src).unwrap().push((dest, weight));
         self.adj_list.get_mut(&dest).unwrap().push((src, weight))
     }
@@ -87,6 +88,20 @@ impl Graph {
             .map(|neighbours| neighbours.len())
             .sum::<usize>()
             / 2
+    }
+
+    pub fn from_weighted_edge_list(adj_list: Vec<(usize, usize, f32)>) -> Self {
+        let mut nodes = HashSet::new();
+        for &(src, dest, _weight) in &adj_list {
+            nodes.insert(src);
+            nodes.insert(dest);
+        }
+
+        let mut graph = Graph::new(nodes);
+        for &(src, dest, weight) in &adj_list {
+            graph.add_edge(src, dest, Some(weight));
+        }
+        graph
     }
 
     pub fn from_edge_list(adj_list: Vec<(usize, usize)>) -> Self {
@@ -189,14 +204,14 @@ mod tests {
         assert_eq!(graph.num_e(), 7);
 
         let expected = vec![
-            (1, vec![(2, None), (5, None)]),
-            (2, vec![(1, None), (5, None), (3, None), (4, None)]),
-            (3, vec![(2, None), (4, None)]),
-            (4, vec![(2, None), (3, None), (5, None)]),
-            (5, vec![(1, None), (2, None), (4, None)]),
+            (1, vec![(2, 1.0), (5, 1.0)]),
+            (2, vec![(1, 1.0), (5, 1.0), (3, 1.0), (4, 1.0)]),
+            (3, vec![(2, 1.0), (4, 1.0)]),
+            (4, vec![(2, 1.0), (3, 1.0), (5, 1.0)]),
+            (5, vec![(1, 1.0), (2, 1.0), (4, 1.0)]),
         ]
         .into_iter()
-        .collect::<HashMap<usize, Vec<(usize, Option<f32>)>>>();
+        .collect::<HashMap<usize, Vec<(usize, f32)>>>();
 
         assert_eq!(graph.adj_list, expected);
     }
