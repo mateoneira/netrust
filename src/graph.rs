@@ -140,6 +140,17 @@ impl Graph {
             println!("Vertex {} -> {:?}", vertex, edges)
         }
     }
+
+    pub fn reverse(&self) -> Self {
+        //! to reverse graph if it's directed, currently not used
+        let mut reversed = Graph::new(self.get_nodes().into_iter().collect());
+        for (src, neighbours) in &self.adj_list {
+            for (dest, weight) in neighbours {
+                reversed.add_edge(*dest, *src, Some(*weight));
+            }
+        }
+        reversed
+    }
 }
 
 #[cfg(test)]

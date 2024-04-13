@@ -6,11 +6,11 @@
     "configurations": [
         {
             "name": "rust debugger",
-            "type": "cppvsdbg",
+            "type": "lldb",
             "request": "launch",
             "program": "${workspaceFolder}/target/debug/netrust.exe",
             "args": [
-                "data/edge_list.txt"
+                "data/weighted_edge_list.txt"
             ],
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "rust: cargo build"
